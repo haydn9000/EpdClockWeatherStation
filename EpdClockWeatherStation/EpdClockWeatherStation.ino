@@ -1,43 +1,34 @@
-#include <GxEPD.h>
-#include <GxIO/GxIO_SPI/GxIO_SPI.h>
-#include <GxIO/GxIO.h>
-#include <GxGDEW0213Z16/GxGDEW0213Z16.h> // For SPI e-paper panels 2.13" b/w/r (use GDEW0213Z16)
+// Uncomment next line to use class GFX of library GFX_Root instead of Adafruit_GFX.
+#include <GFX.h>
 
-/* Configure pins for display */
-GxIO_Class io(SPI, 15, 4, 5);
-GxEPD_Class display(io,  5,  16);
+#define ENABLE_GxEPD2_GFX 0
+#include <GxEPD2_BW.h> // including both doesn't hurt
+#include <GxEPD2_3C.h> // including both doesn't hurt
+#include "bitmaps/Bitmaps3c104x212.h" // 2.13" b/w/r
 
-/* FreeFonts from Adafruit_GFX */
 #include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/FreeMonoBold12pt7b.h>
-#include <Fonts/FreeMonoBold18pt7b.h>
-#include <Fonts/FreeMonoBold24pt7b.h>
 
+// Constructor for e-paper, and for AVR needed #defines.
+GxEPD2_3C<GxEPD2_213c, GxEPD2_213c::HEIGHT> display(GxEPD2_213c(/*CS=15*/ SS, /*DC=4*/ 4, /*RST=5*/ 5, /*BUSY=16*/ 16));
 
 
 //=====================================================================SETUP
 void setup()
 {
-  display.init(); //Initialize display
-  
-  showText("It's working 2");
+  display.init();
+  // Comment out next line to have no or minimal Adafruit_GFX code.
+  display.setTextColor(GxEPD_BLACK);
+  display.firstPage();
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    // Comment out next line to have no or minimal Adafruit_GFX code.
+    display.print("Hello World!");
+  }
+  while (display.nextPage());
 }
 
 //=====================================================================LOOP
-void loop()
-{
-  //showText("It's working");
-}
+void loop() {};
 
-//=====================================================================SHOWTEXT
-void showText(char *text)
-{
-  display.setRotation(3); //even = portrait, odd = landscape
-  display.fillScreen(GxEPD_WHITE);
-  const GFXfont* f = &FreeMonoBold9pt7b ;
-  display.setTextColor(GxEPD_BLACK);
-  display.setFont(f);
-  display.setCursor(0,15);
-  display.println(text);
-  display.update();
-}
+//=====================================================================WIP
