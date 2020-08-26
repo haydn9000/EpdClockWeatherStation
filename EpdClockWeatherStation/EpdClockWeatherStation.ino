@@ -7,10 +7,6 @@
 GxIO_Class io(SPI, 15, 4, 5);
 GxEPD_Class display(io,  5,  16);
 
-/* modified font created at http://oleddisplay.squix.ch/ */
-#include "DialogInput_Bold_16.h"
-#include "Moon_Phases.h"
-
 /* FreeFonts from Adafruit_GFX */
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
@@ -24,7 +20,7 @@ void setup()
 {
   display.init(); //Initialize display
   
-  showText("It's working");
+  showText("It's working 2");
 }
 
 //=====================================================================LOOP
